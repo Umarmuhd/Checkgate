@@ -13,11 +13,19 @@ export async function loginHandler(
 
   // find the user by email
   const user = await findUserByEmail(email);
+  if (!user) {
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ success: false, message: "Invalid login credentials" });
+    return;
+  }
 
-  if (!user || !user.comparePassword(password)) {
+  const isValid = await user.comparePassword(password);
+
+  if (!isValid) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .send("Invalid email or password");
+      .json({ success: false, message: "Invalid login credentials" });
   }
 
   const payload = omit(user.toJSON(), ["password", "__v"]);
@@ -33,5 +41,7 @@ export async function loginHandler(
     secure: false,
   });
 
-  return res.status(StatusCodes.OK).send(jwt);
+  return res
+    .status(StatusCodes.OK)
+    .json({ success: true, message: "login success!", jwt });
 }

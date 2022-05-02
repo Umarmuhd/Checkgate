@@ -1,4 +1,4 @@
-import { getModelForClass, prop, pre } from "@typegoose/typegoose";
+import { getModelForClass, prop, pre, Ref } from "@typegoose/typegoose";
 import argon2 from "argon2";
 
 @pre<User>("save", async function (next) {
@@ -12,17 +12,40 @@ import argon2 from "argon2";
 })
 export class User {
   @prop({ required: true, unique: true })
-  public username: string;
-
-  @prop({ required: true, unique: true })
   public email: string;
 
   @prop({ required: true })
   public password: string;
 
+  @prop({ required: true })
+  public first_name: string;
+
+  @prop({ required: true })
+  public last_name: string;
+
+  @prop({ ref: () => Address })
+  public address?: Ref<Address>[];
+
   public async comparePassword(password: string): Promise<boolean> {
     return argon2.verify(this.password, password);
   }
+}
+
+class Address {
+  @prop()
+  public street_name: string;
+
+  @prop()
+  public city?: string;
+
+  @prop()
+  public state?: string;
+
+  @prop()
+  public postal_code: string;
+
+  @prop()
+  public country: string;
 }
 
 export const UserModel = getModelForClass(User, {

@@ -7,17 +7,24 @@ export async function registerUserHandler(
   req: Request<{}, {}, RegisterUserBody>,
   res: Response
 ) {
-  const { username, email, password } = req.body;
+  const { first_name, last_name, email, password } = req.body;
 
   try {
-    await createUser({ username, email, password });
+    await createUser({ first_name, last_name, email, password });
 
-    return res.status(StatusCodes.CREATED).send("user created successfully");
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ success: true, message: "User created successfully" });
   } catch (e) {
     if (e.code === 11000) {
-      return res.status(StatusCodes.CONFLICT).send("User already exists");
+      res
+        .status(StatusCodes.CONFLICT)
+        .json({ success: false, message: "User already exists" });
+      return;
     }
 
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(e.message);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: e.message });
   }
 }
