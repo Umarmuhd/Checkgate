@@ -23,8 +23,8 @@ export class User {
   @prop({ required: true })
   public last_name: string;
 
-  @prop({ ref: () => Address })
-  public address?: Ref<Address>[];
+  @prop({ type: () => Address })
+  public address?: Address[];
 
   public async comparePassword(password: string): Promise<boolean> {
     return argon2.verify(this.password, password);
