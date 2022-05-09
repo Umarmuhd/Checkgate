@@ -44,8 +44,6 @@ export async function addAddressHandler(req: Request, res: Response) {
       { new: true }
     ).exec();
 
-    console.log(user);
-
     return res.status(StatusCodes.CREATED).json({
       success: true,
       message: "Address added success!",
