@@ -12,8 +12,6 @@ export async function registerUserHandler(
   const { first_name, last_name, email, password } = req.body;
 
   try {
-    console.log(req.body);
-
     const user = await createUser({ first_name, last_name, email, password });
 
     const wallet = await createWallet(user._id);

@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import userRoute from './modules/user/user.route';
 import authRoute from './modules/auth/auth.route';
 import videoRoute from './modules/videos/video.route';
+import walletRoute from './modules/wallet/wallet.route';
 import deserializeUser from './middleware/deserializeUser';
 
 const PORT = process.env.PORT || 4000;
@@ -29,6 +30,7 @@ app.use(deserializeUser);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/videos', videoRoute);
+app.use('/api/wallet', walletRoute);
 
 const server = app.listen(PORT, async () => {
   await connectToDatabase();
