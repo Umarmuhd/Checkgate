@@ -4,7 +4,6 @@ import argon2 from "argon2";
 @pre<User>("save", async function (next) {
   if (this.isModified("password") || this.isNew) {
     const hash = await argon2.hash(this.password);
-
     this.password = hash;
 
     return next();
@@ -25,6 +24,7 @@ export class User {
 
   @prop({ type: () => Address })
   public address?: Address[];
+  
 
   public async comparePassword(password: string): Promise<boolean> {
     return argon2.verify(this.password, password);
@@ -47,6 +47,7 @@ class Address {
   @prop()
   public country: string;
 }
+
 
 export const UserModel = getModelForClass(User, {
   schemaOptions: {

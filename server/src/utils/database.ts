@@ -8,7 +8,7 @@ const DB_CONNECTION_STRING =
 export async function connectToDatabase() {
   try {
     await mongoose.connect(DB_CONNECTION_STRING);
-    logger.info("Connect to database");
+    logger.info("Connected to database");
   } catch (e) {
     logger.error(e, "Failed to connect to database. Goodbye");
     process.exit(1);
