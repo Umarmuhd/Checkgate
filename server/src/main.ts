@@ -10,6 +10,7 @@ import userRoute from './modules/user/user.route';
 import authRoute from './modules/auth/auth.route';
 import videoRoute from './modules/videos/video.route';
 import baskeRoute from './modules/basket/basket.route';
+import walletRoute from './modules/wallet/wallet.route';
 import deserializeUser from './middleware/deserializeUser';
 
 const PORT = process.env.PORT || 4000;
@@ -31,6 +32,7 @@ app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/videos', videoRoute);
 app.use('/api/basket', baskeRoute);
+app.use('/api/wallet', walletRoute);
 
 const server = app.listen(PORT, async () => {
   console.clear()
