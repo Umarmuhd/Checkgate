@@ -18,6 +18,7 @@ export async function registerUserHandler(
       .status(StatusCodes.CREATED)
       .json({ success: true, message: "User created successfully" });
   } catch (e: any) {
+    console.log(e);
     if (e.code === 11000) {
     return  res
         .status(StatusCodes.CONFLICT)
