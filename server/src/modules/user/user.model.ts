@@ -1,8 +1,8 @@
-import { getModelForClass, prop, pre, Ref } from "@typegoose/typegoose";
-import argon2 from "argon2";
+import { getModelForClass, prop, pre, Ref } from '@typegoose/typegoose';
+import argon2 from 'argon2';
 
-@pre<User>("save", async function (next) {
-  if (this.isModified("password") || this.isNew) {
+@pre<User>('save', async function (next) {
+  if (this.isModified('password') || this.isNew) {
     const hash = await argon2.hash(this.password);
     this.password = hash;
 
@@ -26,6 +26,9 @@ export class User {
   public address?: Address[];
   
 
+  @prop({ type: () => Store })
+  public stores?: Store[];
+
   public async comparePassword(password: string): Promise<boolean> {
     return argon2.verify(this.password, password);
   }
@@ -46,6 +49,10 @@ class Address {
 
   @prop()
   public country: string;
+}
+class Store {
+  @prop()
+  public store_name: string;
 }
 
 

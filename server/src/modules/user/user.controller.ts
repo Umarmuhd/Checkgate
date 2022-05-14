@@ -62,3 +62,30 @@ export async function addAddressHandler(req: Request, res: Response) {
       .json({ success: false, message: err.message });
   }
 }
+
+export async function addStoreHandler(req: Request, res: Response) {
+  const { _id: userId } = res.locals.user;
+  const { store_name } = req.body;
+
+  try {
+    const user = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $push: { stores: { store_name } },
+      },
+      { new: true }
+    ).exec();
+
+    return res.status(StatusCodes.CREATED).json({
+      success: true,
+      message: 'Address added success!',
+      data: { user },
+    });
+  } catch (err: any) {
+    console.log(err);
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: err.message });
+  }
+}
