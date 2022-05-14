@@ -13,22 +13,17 @@ export async function registerUserHandler(
 
   try {
     const user = await createUser({ first_name, last_name, email, password });
-
     const wallet = await createWallet(user._id);
-    if (!wallet) {
-      return res.json({ status: false, message: "Could'nt Create Wallet" });
-    }
     return res
       .status(StatusCodes.CREATED)
       .json({ success: true, message: "User created successfully" });
   } catch (e: any) {
     if (e.code === 11000) {
-      res
+    return  res
         .status(StatusCodes.CONFLICT)
         .json({ success: false, message: "User already exists" });
-      return;
+      
     }
-
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: e.message });
