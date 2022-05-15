@@ -9,7 +9,7 @@ export async function getUserOrdersHandler(req: Request, res: Response) {
 
   return res.status(StatusCodes.OK).json({
     success: true,
-    message: 'wallet balance',
+    message: 'orders list',
     data: orders,
   });
 }

@@ -1,6 +1,12 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useContext, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { NEXT_URL } from '../../../config/index';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+
+import AuthContext from '../../../context/AuthContext';
 
 type Inputs = {
   email: string;
@@ -14,13 +20,34 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const [loading, setLoading] = useState(false);
+  const { loginUser } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleLogin: SubmitHandler<Inputs> = async (values: {
     email: string;
     password: string;
   }) => {
-    console.log(values);
+    try {
+      setLoading(true);
+
+      const response = await axios.post(`${NEXT_URL}/api/login`, values);
+
+      const { user, token } = response.data;
+
+      toast.success('Login success!');
+
+      loginUser(user, token);
+      setLoading(false);
+
+      router.push('/dashboard/' + status);
+      return;
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
   };
 
   return (

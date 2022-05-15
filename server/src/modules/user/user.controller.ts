@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-import { createWallet } from "../wallet/wallet.service";
-import { UserModel } from "./user.model";
-import { RegisterUserBody } from "./user.schema";
-import { createUser } from "./user.service";
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { createWallet } from '../wallet/wallet.service';
+import { UserModel } from './user.model';
+import { RegisterUserBody } from './user.schema';
+import { createUser } from './user.service';
 
 export async function registerUserHandler(
   req: Request<{}, {}, RegisterUserBody>,
@@ -16,14 +16,13 @@ export async function registerUserHandler(
     const wallet = await createWallet(user._id);
     return res
       .status(StatusCodes.CREATED)
-      .json({ success: true, message: "User created successfully" });
+      .json({ success: true, message: 'User created successfully' });
   } catch (e: any) {
     console.log(e);
     if (e.code === 11000) {
-    return  res
+      return res
         .status(StatusCodes.CONFLICT)
-        .json({ success: false, message: "User already exists" });
-      
+        .json({ success: false, message: 'User already exists' });
     }
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -51,7 +50,7 @@ export async function addAddressHandler(req: Request, res: Response) {
 
     return res.status(StatusCodes.CREATED).json({
       success: true,
-      message: "Address added success!",
+      message: 'Address added success!',
       data: { user },
     });
   } catch (err: any) {
