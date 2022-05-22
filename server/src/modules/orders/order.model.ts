@@ -1,5 +1,6 @@
 import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
 import { customAlphabet } from 'nanoid';
+import { Product } from '../products/product.model';
 import { User } from '../user/user.model';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
@@ -20,8 +21,16 @@ export class Order {
   @prop({ required: true, ref: () => User })
   public user: Ref<User>;
 
-  @prop({ required: true, ref: () => User })
-  public payer: Ref<User>;
+  @prop({ required: true })
+  public order_items?: [
+    {
+      name: string;
+      price: number;
+      quantity: number;
+      image: string;
+      product: Ref<Product>;
+    }
+  ];
 
   @prop({ required: true })
   shipment_info: {
@@ -34,6 +43,9 @@ export class Order {
     email?: string;
     phone: string;
   };
+
+  @prop({ required: true })
+  payment_id: string;
 }
 
 export const OrderModel = getModelForClass(Order, {

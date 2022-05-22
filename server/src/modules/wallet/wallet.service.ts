@@ -36,6 +36,10 @@ export async function findWalletByUserId(user_id: string) {
   return WalletModel.findOne({ user_id });
 }
 
+export async function findWallet(wallet_id: string) {
+  return WalletModel.findOne({ wallet_id });
+}
+
 export async function createCheckout(values: {
   e_wallet_id: string;
   user_id: string;
@@ -79,19 +83,23 @@ export async function transferWallet({
     msg: info,
   };
 
-  const { id: pending_transaction_id } = await rapydClient.post<
-    TransferFundsBetweenWalletsResponse,
-    TransferFundsBetweenWalletsParams
-  >({
-    path: '/v1/account/transfer',
-    body: {
-      currency: 'USD',
-      amount,
-      source_ewallet: sender_wallet,
-      destination_ewallet: receiver_wallet,
-      metadata,
-    },
-  });
-
-  return pending_transaction_id;
+  try {
+    const { id: pending_transaction_id } = await rapydClient.post<
+      TransferFundsBetweenWalletsResponse,
+      TransferFundsBetweenWalletsParams
+    >({
+      path: '/v1/account/transfer',
+      body: {
+        currency: 'USD',
+        amount,
+        source_ewallet: sender_wallet,
+        destination_ewallet: receiver_wallet,
+        metadata,
+      },
+    });
+    return { success: true, id: pending_transaction_id };
+  } catch (err: any) {
+    console.log(err);
+    return { success: false, error: err.response.data };
+  }
 }

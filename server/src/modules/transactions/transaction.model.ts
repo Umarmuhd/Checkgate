@@ -4,30 +4,27 @@ import { User } from '../user/user.model';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
 
-export class Basket {
-  @prop({ required: true })
+export class Transaction {
+  @prop()
   public title: string;
 
-  @prop({ required: true })
+  @prop()
   public description: string;
 
-  @prop({ required: true })
-  public amount: string;
-
-  @prop({ required: true })
-  public url: string;
-
-  @prop({ unique: true, default: () => nanoid() })
-  public basket_Id: string;
+  @prop({ enum: ['mp4'] })
+  public extension: string;
 
   @prop({ required: true, ref: () => User })
   public owner: Ref<User>;
 
-  @prop({ required: true, default: false })
-  public paid: boolean;
+  @prop({ unique: true, default: () => nanoid() })
+  public videoId: string;
+
+  @prop({ default: false })
+  public published: boolean;
 }
 
-export const BasketModel = getModelForClass(Basket, {
+export const TransactionModel = getModelForClass(Transaction, {
   schemaOptions: {
     timestamps: true,
   },

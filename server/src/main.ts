@@ -30,12 +30,12 @@ app.use(deserializeUser);
 
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/videos', videoRoute);
+// app.use('/api/videos', videoRoute);
 app.use('/api/basket', baskeRoute);
 app.use('/api/wallet', walletRoute);
 
 const server = app.listen(PORT, async () => {
-  console.clear()
+  console.clear();
   await connectToDatabase();
   logger.info(`Server listening at htp://localhost:${PORT}`);
 });

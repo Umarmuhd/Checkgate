@@ -4,30 +4,27 @@ import { User } from '../user/user.model';
 
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
 
-export class Basket {
-  @prop({ required: true })
-  public title: string;
+export class Product {
+  @prop({ required: true, unique: true, default: () => `product_${nanoid()}` })
+  product_id: string;
 
-  @prop({ required: true })
+  @prop()
   public description: string;
 
   @prop({ required: true })
-  public amount: string;
+  public price: number;
 
   @prop({ required: true })
-  public url: string;
+  public name: string;
 
-  @prop({ unique: true, default: () => nanoid() })
-  public basket_Id: string;
+  @prop({ required: true })
+  public image: string;
 
   @prop({ required: true, ref: () => User })
-  public owner: Ref<User>;
-
-  @prop({ required: true, default: false })
-  public paid: boolean;
+  public user: Ref<User>;
 }
 
-export const BasketModel = getModelForClass(Basket, {
+export const ProductModel = getModelForClass(Product, {
   schemaOptions: {
     timestamps: true,
   },
