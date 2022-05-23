@@ -1,6 +1,7 @@
-const checkgateEl = document.getElementById('checkgate');
+(async () => {
+  const checkgateEl = document.getElementById('checkgate');
 
-document.addEventListener('DOMContentLoaded', async () => {
+  // document.addEventListener('DOMContentLoaded', async () => {
   const amount = checkgateEl.attributes['amount'].value;
   const wallet_address = checkgateEl.attributes['to'].value;
 
@@ -158,7 +159,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const payload = {};
 
     try {
-      console.log(payload);
       const response = await fetch('', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -174,8 +174,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  // });
+
   window.checkgateCheckout = () => {
     console.log('here');
   };
-  checkgateCheckout();
-});
+})();
