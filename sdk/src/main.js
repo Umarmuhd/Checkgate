@@ -119,7 +119,7 @@
     color: #e5e5e5;
   }
 
-  button {
+   button.btn {
     margin-top: 32px;
     width: 100%;
     background-color: #ffffff;
@@ -331,17 +331,23 @@
 
   const checkgateEl = document.getElementById('checkgate');
 
-  // const amount = checkgateEl.attributes['amount'].value;
-  // const wallet_address = checkgateEl.attributes['to'].value;
+  const amount = checkgateEl?.attributes['amount']?.value;
+  const wallet_address = checkgateEl?.attributes['to']?.value;
 
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.setAttribute('id', 'myModal');
+  const btn = document.createElement('button');
+  btn.setAttribute('id', 'myBtn');
+  btn.textContent = 'Open Modal';
 
-  modal.innerHTML = ` 
-  
-  <form class="form" id="login" onsubmit={(e)=> e.preventDefault()}>
-  <h3>Login Here</h3>
+  // When the user clicks the button, open the modal
+  btn.onclick = function (event) {
+    modal.style.display = 'block';
+  };
+
+  const form = document.createElement('form');
+  form.className = 'form';
+  form.id = 'login';
+
+  form.innerHTML = `<h3>Login Here</h3>
 
   <div class="form__message form__message--error"></div>
 
@@ -351,66 +357,23 @@
   <label for="loginPassword">Password</label>
   <input type="password" placeholder="Password" id="loginPassword" class="form__input" autocomplete="off">
 
-  <button>Login</button>
+  <button class="btn">Login</button>
 
   <p class="form__text">
     <a class="form__link" href="./" id="linkRegister">Don't have an account? Register</a>
   </p>
-
-</form>
-
-<form class="form form--hidden" id="checkgateCard">
-<h3>Checkgate</h3>
-
-<div class="form__message checkout__message">
-  You’re about to checkout from smileys.africa</div>
-
-<div class="cart_box">
-  <p class="cart_summary--title">Cart Summary <span class="cart_qty">(3)</span></p>
-
-  <ul class="cart_list">
-    <li class="flex cart_item">
-      <div class="cart_image_name">
-        <img src="" alt="">
-        <div class="">
-          <h4>Brown Men Shirt</h4>
-          <span class="cart_item--category">Clothings</span>
-        </div>
-      </div>
-      <div class="price_qty">
-        <p class="price">$ 500.00</p>
-        <p class="qty">X 3</p>
-      </div>
-    </li>
-  </ul>
-
-  <hr>
-
-  <div class="mt-5 flex">
-    <span class="total_price">Total amount:</span>
-    <span class="total_amount">$ 1500.00</span>
-  </div>
-</div>
-
-<div class="location_box">
-  <p class="location_head--title">Delivery Location</p>
-
-  <div class="radiobtn">
-    <input type="radio" id="huey" name="drone" value="huey" checked />
-    <label for="huey">Pri. School Street.</label>
-  </div>
-
-  <div class="radiobtn">
-    <input type="radio" id="dewey" name="drone" value="dewey" />
-    <label for="dewey">Current Location</label>
-  </div>
-
-</div>
-
-<button>Finalize</button>
-
-</form>
 `;
+
+  const orderDetails = document.createElement('form');
+  orderDetails.className = 'form form--hidden';
+  orderDetails.id = 'checkgateCard';
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.setAttribute('id', 'myModal');
+
+  modal.appendChild(form);
+  modal.appendChild(orderDetails);
 
   checkgateEl.appendChild(modal);
 
@@ -421,22 +384,34 @@
     }
   };
 
-  const loginForm = document.querySelector('#login');
-  const checkgateCard = document.querySelector('#checkgateCard');
-
   const loginEmail = document.getElementById('loginEmail');
   const loginPassword = document.getElementById('loginPassword');
 
-  let user_data;
+  window.checkgateCheckout = (values) => {
+    modal.style.display = 'block';
 
-  loginForm.addEventListener('submit', async (e) => {
-    console.log(e);
+    console.log(values);
+  };
+
+  let products;
+
+  window.checkgateCheckout = (values) => {
+    modal.style.display = 'block';
+
+    console.log(values);
+
+    products = values;
+  };
+
+  form.onsubmit = async function (e) {
     e.preventDefault();
 
     const payload = {
       email: loginEmail.value,
       password: loginPassword.value,
     };
+
+    console.log('products: ', products);
 
     try {
       const response = await fetch('http://localhost:4000/api/auth', {
@@ -466,15 +441,72 @@
 
       console.log('user: ', user_respo);
 
-      loginForm.style.display = 'none';
-      checkgateCard.style.display = 'block';
+      const totalPrice = products.products.reduce(
+        (total, item) => total + item.price,
+        0
+      );
+
+      orderDetails.innerHTML = `
+  <h3>Checkgate</h3>
+
+  <div class="form__message checkout__message">
+    You’re about to checkout from smileys.africa</div>
+
+  <div class="cart_box">
+    <p class="cart_summary--title">Cart Summary <span class="cart_qty">(${
+      products.products.length
+    })</span></p>
+
+    <ul class="cart_list">
+    ${products.products.map((product) => {
+      return `  <li class="flex cart_item">
+      <div class="cart_image_name">
+        <img src="" alt="">
+        <div class="">
+          <h4>${product.name}</h4>
+          <span class="cart_item--category">Clothings</span>
+        </div>
+      </div>
+      <div class="price_qty">
+        <p class="price">$ ${product.price}</p>
+        <p class="qty">X 1</p>
+      </div>
+    </li>`;
+    })}
+    </ul>
+
+    <hr>
+
+    <div class="mt-5 flex">
+      <span class="total_price">Total amount:</span>
+      <span class="total_amount">$ ${totalPrice}</span>
+    </div>
+  </div>
+
+  <div class="location_box" id="addressBox">
+    <p class="location_head--title">Delivery Location</p>
+
+    <div class="radiobtn">
+      <input type="radio" id="huey" name="drone" value="huey" checked />
+      <label for="huey">${user_respo.address[0].street_name}</label>
+    </div>
+
+    <div class="radiobtn">
+      <input type="radio" id="dewey" name="drone" value="dewey" />
+      <label for="dewey">Current Location</label>
+    </div>
+
+  </div>
+
+  <button class="btn">Finalize</button>`;
+
+      form.style.display = 'none';
+      orderDetails.style.display = 'block';
     } catch (err) {
       console.error(err.message);
       return;
     }
-  });
-
-  console.log(user_data);
+  };
 
   const handleMakePurchase = async () => {
     const payload = {};
@@ -495,10 +527,7 @@
     }
   };
 
-  window.checkgateCheckout = (values) => {
-    modal.style.display = 'block';
-
-    const { amount, products, to, url, shipment_info } = values;
-    console.log(values);
+  orderDetails.onsubmit = async function (e) {
+    e.preventDefault();
   };
 })();
