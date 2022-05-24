@@ -331,7 +331,6 @@
 
   const checkgateEl = document.getElementById('checkgate');
 
-  const amount = checkgateEl?.attributes['amount']?.value;
   const wallet_address = checkgateEl?.attributes['to']?.value;
 
   const btn = document.createElement('button');
@@ -387,13 +386,7 @@
   const loginEmail = document.getElementById('loginEmail');
   const loginPassword = document.getElementById('loginPassword');
 
-  window.checkgateCheckout = (values) => {
-    modal.style.display = 'block';
-
-    console.log(values);
-  };
-
-  let products;
+  let products, jwt, totalPrice;
 
   window.checkgateCheckout = (values) => {
     modal.style.display = 'block';
@@ -428,7 +421,9 @@
 
       console.log(data);
 
-      const resp = await fetch('http://localhost:4000/api/users', {
+      jwt = data.jwt;
+
+      const user_res = await fetch('http://localhost:4000/api/users', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + data.jwt,
@@ -437,11 +432,11 @@
         mode: 'cors', // no-cors, *cors, same-origin
       });
 
-      const user_respo = await resp.json();
+      const user_data = await user_res.json();
 
-      console.log('user: ', user_respo);
+      console.log('user: ', user_data);
 
-      const totalPrice = products.products.reduce(
+      totalPrice = products.products.reduce(
         (total, item) => total + item.price,
         0
       );
@@ -450,7 +445,7 @@
   <h3>Checkgate</h3>
 
   <div class="form__message checkout__message">
-    You’re about to checkout from smileys.africa</div>
+    You’re about to checkout from ${window.location.host}</div>
 
   <div class="cart_box">
     <p class="cart_summary--title">Cart Summary <span class="cart_qty">(${
@@ -486,15 +481,23 @@
   <div class="location_box" id="addressBox">
     <p class="location_head--title">Delivery Location</p>
 
-    <div class="radiobtn">
-      <input type="radio" id="huey" name="drone" value="huey" checked />
-      <label for="huey">${user_respo.address[0].street_name}</label>
-    </div>
+    <div>
+    ${user_data.address.map((address) => {
+      return `<div class="radiobtn">
+      <input type="radio" id="${
+        address.street_name
+      }" name="address" value='${JSON.stringify(address)}' checked />
+      <label for="${address.street_name}">${address.street_name}</label>
+    </div>`;
+    })}
 
     <div class="radiobtn">
-      <input type="radio" id="dewey" name="drone" value="dewey" />
-      <label for="dewey">Current Location</label>
+      <input type="radio" id="location" name="address" value="current_location" />
+      <label for="location">Current Location</label>
     </div>
+    </div>  
+
+    
 
   </div>
 
@@ -508,26 +511,43 @@
     }
   };
 
-  const handleMakePurchase = async () => {
-    const payload = {};
+  orderDetails.onsubmit = async function (e) {
+    e.preventDefault();
+
+    let selected_address;
+    const addresses = document.querySelectorAll('input[name="address"]');
+    for (const address of addresses) {
+      if (address.checked) {
+        selected_address = address.value;
+        break;
+      }
+    }
 
     try {
-      const response = await fetch('', {
+      const payload = {
+        to: wallet_address,
+        amount: totalPrice,
+        url: window.location.host,
+        shipment_info: JSON.parse(selected_address),
+        items: products.products,
+      };
+
+      const response = await fetch('http://localhost:4000/api/orders/order', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         credentials: 'include', // include, *same-origin, omit
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + '',
+          Authorization: 'Bearer ' + jwt,
         },
         body: JSON.stringify(payload), // body data type must match "Content-Type" header
       });
+
+      const data = await response.json();
+
+      console.log(data);
     } catch (err) {
       console.error(err);
     }
-  };
-
-  orderDetails.onsubmit = async function (e) {
-    e.preventDefault();
   };
 })();

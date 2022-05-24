@@ -151,7 +151,9 @@ export async function makePurchaseHandler(req: Request, res: Response) {
     const receiver_wallet = await findWallet(to);
 
     if (!receiver_wallet) {
-      res.status(400).json({ success: false, message: 'incorrect to address' });
+      res
+        .status(400)
+        .json({ success: false, message: 'invalid wallet address' });
       return;
     }
 
@@ -200,7 +202,7 @@ export async function makePurchaseHandler(req: Request, res: Response) {
       .status(200)
       .json({ success: true, message: 'order place success', data: { order } });
   } catch (err: any) {
-    console.error(err.response.data);
+    console.error(err);
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: err.message });
