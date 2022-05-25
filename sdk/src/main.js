@@ -22,28 +22,6 @@
     top: 50%;
   }
 
-  .background .shape {
-    height: 200px;
-    width: 200px;
-    position: absolute;
-    border-radius: 50%;
-  }
-
-  .shape:first-child {
-    background: linear-gradient(#1845ad,
-        #23a2f6);
-    left: -80px;
-    top: -80px;
-  }
-
-  .shape:last-child {
-    background: linear-gradient(to right,
-        #ff512f,
-        #f09819);
-    right: -30px;
-    bottom: -80px;
-  }
-
   form {
     height: 600px;
     width: 400px;
@@ -80,20 +58,6 @@
     margin-top: 0.5rem;
     font-size: 0.85rem;
     text-align: center;
-  }
-
-  .welcome__text {
-    text-align: center;
-  }
-
-  .bg__white {
-    background: #fff;
-    padding: 16px;
-  }
-
-  .bg__white .welcome__text,
-  .bg__white .full_name {
-    color: #000 !important;
   }
 
   label {
@@ -296,6 +260,14 @@
     height: 20px;
   }
 
+  .success_icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
 
   /* The Modal (background) */
   .modal {
@@ -367,12 +339,17 @@
   orderDetails.className = 'form form--hidden';
   orderDetails.id = 'checkgateCard';
 
+  const orderSuccess = document.createElement('form');
+  orderSuccess.className = 'form form--hidden';
+  orderSuccess.id = 'success';
+
   const modal = document.createElement('div');
   modal.className = 'modal';
   modal.setAttribute('id', 'myModal');
 
   modal.appendChild(form);
   modal.appendChild(orderDetails);
+  modal.appendChild(orderSuccess);
 
   checkgateEl.appendChild(modal);
 
@@ -532,6 +509,28 @@
         items: products.products,
       };
 
+      orderSuccess.innerHTML = `
+      <div class="success_icon">
+      <svg width="103" height="103" viewBox="0 0 103 103" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51.5 99.7812C78.165 99.7812 99.7812 78.165 99.7812 51.5C99.7812 24.835 78.165 3.21875 51.5 3.21875C24.835 3.21875 3.21875 24.835 3.21875 51.5C3.21875 78.165 24.835 99.7812 51.5 99.7812Z" fill="#4BD37B"/>
+        <path d="M63.1667 37L45.6667 55L39.8333 49L34 55L45.6667 67L69 43L63.1667 37Z" fill="white"/>
+        </svg>
+    </div>
+
+    <h3>Checkout Success</h3>
+
+    <p class="form__text">
+      Thank you for your payment. We will sent a receipt to your email address soon.
+    </p>   
+  
+    <button class="btn">Continue</button>
+      `;
+
+      orderDetails.style.display = 'none';
+      orderSuccess.style.display = 'block';
+
+      return;
+
       const response = await fetch('http://localhost:4000/api/orders/order', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -546,8 +545,30 @@
       const data = await response.json();
 
       console.log(data);
+
+      orderSuccess.innerHTML = `
+      <div class="success_icon">
+      <svg width="103" height="103" viewBox="0 0 103 103" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M51.5 99.7812C78.165 99.7812 99.7812 78.165 99.7812 51.5C99.7812 24.835 78.165 3.21875 51.5 3.21875C24.835 3.21875 3.21875 24.835 3.21875 51.5C3.21875 78.165 24.835 99.7812 51.5 99.7812Z" fill="#4BD37B"/>
+        <path d="M63.1667 37L45.6667 55L39.8333 49L34 55L45.6667 67L69 43L63.1667 37Z" fill="white"/>
+        </svg>
+    </div>
+
+    <h3>Checkout Success</h3>
+
+    <p class="form__text">
+      Thank you for your payment. We will sent a receipt to your email address soon.
+    </p>   
+  
+    <button class="btn">Continue</button>
+      `;
     } catch (err) {
       console.error(err);
     }
+  };
+
+  orderSuccess.onsubmit = async function (e) {
+    e.preventDefault();
+    checkgateEl.removeChild(modal);
   };
 })();

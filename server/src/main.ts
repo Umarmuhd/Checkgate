@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import userRoute from './modules/user/user.route';
 import authRoute from './modules/auth/auth.route';
 import orderRoute from './modules/orders/order.route';
-import baskeRoute from './modules/basket/basket.route';
+import basketRoute from './modules/basket/basket.route';
 import walletRoute from './modules/wallet/wallet.route';
 import deserializeUser from './middleware/deserializeUser';
 
@@ -26,7 +26,7 @@ app.use(deserializeUser);
 app.use('/api/users', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/orders', orderRoute);
-app.use('/api/basket', baskeRoute);
+app.use('/api/basket', basketRoute);
 app.use('/api/wallet', walletRoute);
 
 const server = app.listen(PORT, async () => {

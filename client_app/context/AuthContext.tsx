@@ -15,8 +15,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const router = useRouter();
 
-  useEffect(() => checkUserLoggedIn(), []);
-
   const loginUser = (user, token: string) => {
     setUser(user);
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
@@ -38,35 +36,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const checkUserLoggedIn = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`${NEXT_URL}/api/user`, {
-        withCredentials: true,
-        credentials: 'include',
-        method: 'GET',
-      });
+  // const checkUserLoggedIn = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await axios.get(`${NEXT_URL}/api/user`, {
+  //       withCredentials: true,
+  //       credentials: 'include',
+  //       method: 'GET',
+  //     });
 
-      setTimeout(() => {
-        checkUserLoggedIn();
-      }, res.data.expires_in * 1000 - 500);
+  //     setTimeout(() => {
+  //       checkUserLoggedIn();
+  //     }, res.data.expires_in * 1000 - 500);
 
-      if (res.status === 200) {
-        axios.defaults.headers.common = {
-          Authorization: `Bearer ${res.data.token}`,
-        };
-        setUser(res.data.user);
-        setLoading(false);
-      } else {
-        setUser(null);
-        setLoading(false);
-        router.push('/auth/login');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  };
+  //     if (res.status === 200) {
+  //       axios.defaults.headers.common = {
+  //         Authorization: `Bearer ${res.data.token}`,
+  //       };
+  //       setUser(res.data.user);
+  //       setLoading(false);
+  //     } else {
+  //       setUser(null);
+  //       setLoading(false);
+  //       router.push('/auth/login');
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   setLoading(false);
+  // };
+
+  // useEffect(() => checkUserLoggedIn(), []);
 
   return (
     <AuthContext.Provider value={{ user, loginUser, logout }}>

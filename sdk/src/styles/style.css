@@ -75,19 +75,6 @@ form h3{
     text-align: center;
 }
 
-.welcome__text{
-    text-align: center;
-}
-
-.bg__white{
-    background: #fff;
-    padding: 16px;
-}
-
-.bg__white .welcome__text, .bg__white .full_name{    
-    color: #000 !important;
-}
-
 label{
     display: block;
     margin-top: 30px;
@@ -260,5 +247,7 @@ margin-bottom: 16px;
   width: 20px;
   height: 20px;
 }
+
+
 
 
