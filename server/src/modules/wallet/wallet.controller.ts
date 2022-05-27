@@ -28,7 +28,7 @@ export async function getUserWalletBalance(req: Request, res: Response) {
   return res.status(StatusCodes.OK).json({
     success: true,
     message: 'wallet balance',
-    data: balance[0] ?? { balance: 0 },
+    data: { ...balance[0], wallet } ?? { balance: 0, wallet },
   });
 }
 

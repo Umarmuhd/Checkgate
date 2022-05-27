@@ -11,7 +11,7 @@ import { NEXT_URL } from 'src/config/index';
 import { RefetchOptions, RefetchQueryFilters, useQuery } from 'react-query';
 import { getMe } from '../api';
 
-interface Me {
+export interface Me {
   _id: string;
   email: string;
   first_name: string;

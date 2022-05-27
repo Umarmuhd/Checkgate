@@ -32,7 +32,7 @@ export default function Login() {
 
     try {
       setLoading(true);
-      const { data } = await login({ email, password });
+      const data = await login({ email, password });
       console.log(data);
       toast.success('Login success!');
       setLoading(false);

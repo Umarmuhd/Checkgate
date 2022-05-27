@@ -1,15 +1,19 @@
-import useOrders from '@/hooks/useOrders';
+import useOrders, { OrderI } from '@/hooks/useOrders';
 import React from 'react';
+import Payme from 'src/components/Payme';
 import { useMe } from 'src/context/AuthContext';
 
 export default function Dashboard() {
   const { user, refetch } = useMe();
 
-  console.log(user);
+  const { data: orders, isLoading } = useOrders();
 
-  const { data, isLoading } = useOrders();
-
-  console.log(data);
+  const total = isLoading
+    ? 0
+    : orders.reduce(
+        (total: number, item: OrderI) => total + item.total_price,
+        0
+      );
 
   return (
     <div className="relative px-4 pb-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:pb-20">
@@ -44,7 +48,7 @@ export default function Dashboard() {
                     <h6 className="mb-2 font-semibold leading-5">
                       Total Sales
                     </h6>
-                    <p className="text-sm text-gray-900">$460.00</p>
+                    <p className="text-sm text-gray-900">{orders?.length}</p>
                   </div>
                   <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
                     <svg
@@ -67,30 +71,7 @@ export default function Dashboard() {
                     <h6 className="mb-2 font-semibold leading-5">
                       Total Revenue
                     </h6>
-                    <p className="text-sm text-gray-900">$460.00</p>
-                  </div>
-                  <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                    <svg
-                      className="w-10 h-10 text-deep-purple-accent-400"
-                      stroke="currentColor"
-                      viewBox="0 0 52 52"
-                    >
-                      <polygon
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        fill="none"
-                        points="29 13 14 29 25 29 23 39 38 23 27 23"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="p-5 duration-300 transform bg-white border shadow-sm hover:-translate-y-2 flex justify-between items-center rounded-xl">
-                  <div className="">
-                    <h6 className="mb-2 font-semibold leading-5">
-                      Total Sales
-                    </h6>
-                    <p className="text-sm text-gray-900">$460.00</p>
+                    <p className="text-sm text-gray-900">$ {total}</p>
                   </div>
                   <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
                     <svg
@@ -110,31 +91,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="col-span-3">
-              <h1 className="text-dark text-3xl font-head font-semibold flex items-center mb-8">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary">
-                  <svg
-                    className="w-8 h-8 text-white"
-                    stroke="currentColor"
-                    viewBox="0 0 52 52"
-                  >
-                    <polygon
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill="none"
-                      points="29 13 14 29 25 29 23 39 38 23 27 23"
-                    />
-                  </svg>
-                </div>
-                <span className="ml-4">Payme</span>
-              </h1>
-              <div className="p-5 rounded-xl bg-white shadow-sm text-[#9e9e9e]">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit
-                debitis, aut temporibus nisi beatae repellat quod corrupti non
-                quas delectus similique.
-              </div>
-            </div>
+            <Payme />
           </div>
         </div>
         <div className="relative mt-16">
@@ -173,13 +130,19 @@ export default function Dashboard() {
                           scope="col"
                           className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                         >
-                          Role
+                          Amount
                         </th>
                         <th
                           scope="col"
                           className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                         >
-                          Created at
+                          Customer Name
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
+                        >
+                          Paid at
                         </th>
                         <th
                           scope="col"
@@ -194,114 +157,62 @@ export default function Dashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <div className="flex items-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              Jean marc
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            Admin
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            12/09/2020
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                            ></span>
-                            <span className="relative">active</span>
-                          </span>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <div className="flex items-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              Jean marc
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            Admin
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            12/09/2020
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                            ></span>
-                            <span className="relative">active</span>
-                          </span>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <div className="flex items-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              Jean marc
-                            </p>
-                          </div>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            Admin
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            12/09/2020
-                          </p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                            ></span>
-                            <span className="relative">active</span>
-                          </span>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <a
-                            href="#"
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Edit
-                          </a>
-                        </td>
-                      </tr>
+                      {!isLoading &&
+                        orders &&
+                        orders.map((order: OrderI) => {
+                          console.log(order);
+
+                          return (
+                            <tr>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <div className="flex items-center">
+                                  <p className="text-gray-900 whitespace-no-wrap">
+                                    {order.order_id}
+                                  </p>
+                                </div>
+                              </td>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {order.total_price}
+                                </p>
+                              </td>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {order.user.first_name} {order.user.last_name}
+                                </p>
+                              </td>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {new Date(order.paid_at).toLocaleDateString(
+                                    'en-US',
+                                    {
+                                      year: 'numeric',
+                                      month: 'long',
+                                      day: 'numeric',
+                                    }
+                                  )}
+                                </p>
+                              </td>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                  <span
+                                    aria-hidden="true"
+                                    className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                  ></span>
+                                  <span className="relative">active</span>
+                                </span>
+                              </td>
+                              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                <a
+                                  href="#"
+                                  className="text-indigo-600 hover:text-indigo-900"
+                                >
+                                  Edit
+                                </a>
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                   <div className="px-5 bg-white py-5 flex flex-col xs:flex-row items-center xs:justify-between">
@@ -364,148 +275,6 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10">
-          <div className="grid gap-5 mb-8 md:grid-cols-2 lg:grid-cols-3">
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">The doctor said</h6>
-              <p className="text-sm text-gray-900">
-                Baseball ipsum dolor sit amet cellar rubber win hack tossed.
-                Slugging catcher slide bench league, left fielder nubber.
-              </p>
-            </div>
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">That is the true</h6>
-              <p className="text-sm text-gray-900">
-                We meet at one of those defining moments - a moment when our
-                nation is at war, our economy is in turmoil, and the American
-                promise has been threatened once more.
-              </p>
-            </div>
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">Those options</h6>
-              <p className="text-sm text-gray-900">
-                Strategic high-level 30,000 ft view. Drill down re-inventing the
-                wheel at the end of the day but curate imagineer, or to be
-                inspired is to become creative.
-              </p>
-            </div>
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">Swearem ipsum</h6>
-              <p className="text-sm text-gray-900">
-                Aliquam scelerisque accumsan nisl, a mattis eros vestibulum et.
-                Vestibulum placerat purus ut nibh aliquam fringilla. Aenean et
-                tortor diam, id tempor elit.
-              </p>
-            </div>
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">Webtwo ipsum</h6>
-              <p className="text-sm text-gray-900">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque rem aperiam, eaque ipsa quae. Sed ut
-                perspiciatis unde omnis.
-              </p>
-            </div>
-            <div className="p-5 duration-300 transform bg-white border rounded shadow-sm hover:-translate-y-2">
-              <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-indigo-50">
-                <svg
-                  className="w-10 h-10 text-deep-purple-accent-400"
-                  stroke="currentColor"
-                  viewBox="0 0 52 52"
-                >
-                  <polygon
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                    points="29 13 14 29 25 29 23 39 38 23 27 23"
-                  />
-                </svg>
-              </div>
-              <h6 className="mb-2 font-semibold leading-5">Lookout flogging</h6>
-              <p className="text-sm text-gray-900">
-                Flatland! Hypatia. Galaxies Orion's sword globular star cluster?
-                Light years quasar as a patch of light gathered by gravity
-                Vangelis radio telescope.
-              </p>
             </div>
           </div>
         </div>
