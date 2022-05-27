@@ -2,11 +2,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { NEXT_URL } from '../../../config/index';
+import { NEXT_URL } from 'src/config/index';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-import { login } from '../../../api';
+import { login } from 'src/api';
 
 type Inputs = {
   email: string;

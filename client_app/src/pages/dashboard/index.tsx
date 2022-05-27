@@ -1,10 +1,15 @@
+import useOrders from '@/hooks/useOrders';
 import React from 'react';
-import { useMe } from '../../context/AuthContext';
+import { useMe } from 'src/context/AuthContext';
 
 export default function Dashboard() {
   const { user, refetch } = useMe();
 
   console.log(user);
+
+  const { data, isLoading } = useOrders();
+
+  console.log(data);
 
   return (
     <div className="relative px-4 pb-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:pb-20">

@@ -4,6 +4,7 @@ const base = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const authBase = `${base}/api/auth`;
 const userBase = `${base}/api/users`;
+const orderBase = `${base}/api/orders`;
 
 export function login(payload: { email: string; password: string }) {
   return axios
@@ -22,4 +23,12 @@ export function getMe() {
     .catch(() => {
       return null;
     });
+}
+
+export function getOrders() {
+  return axios
+    .get(orderBase + '/all', {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
 }

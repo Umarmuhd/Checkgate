@@ -1,14 +1,10 @@
-import Content from '@/components/Content';
-import Meta from '@/components/Meta';
-import { useMe } from '@/context/AuthContext';
-import DashboardLayout from '@/layouts/DashboardLayout';
+import Content from 'src/components/Content';
+import Meta from 'src/components/Meta';
+import { useMe } from 'src/context/AuthContext';
+import DashboardLayout from 'src/layouts/DashboardLayout';
 import React from 'react';
 
 export default function Home() {
-  const { user, refetch } = useMe();
-
-  console.log(user);
-
   return (
     <DashboardLayout>
       <Meta title="Checkgate - Dashboard" />

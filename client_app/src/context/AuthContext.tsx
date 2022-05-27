@@ -7,14 +7,15 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { NEXT_URL } from '../config/index';
+import { NEXT_URL } from 'src/config/index';
 import { RefetchOptions, RefetchQueryFilters, useQuery } from 'react-query';
 import { getMe } from '../api';
 
 interface Me {
   _id: string;
   email: string;
-  username: string;
+  first_name: string;
+  last_name: string;
 }
 
 const AuthContext = createContext<{

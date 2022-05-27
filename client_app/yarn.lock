@@ -65,6 +65,11 @@
   dependencies:
     prop-types "^15.8.1"
 
+"@headlessui/react@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.6.3.tgz#6e52477ea3aee7d99f153b98c1b41765ed77db3d"
+  integrity sha512-WNu/ypGzl0JmJ+sD34KtdycEu2n7EZjKFx2rq6fivsszPdoEyOVZ/GYQMJ437dfAJI0/ZxoRYfrOVduZHjlokQ==
+
 "@heroicons/react@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-1.0.6.tgz#35dd26987228b39ef2316db3b1245c42eb19e324"
@@ -1508,6 +1513,11 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
+
+next-themes@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.2.0.tgz#fdc507f61e95b3ae513dee8d4783bcec8c02e3a3"
+  integrity sha512-myhpDL4vadBD9YDSHiewqvzorGzB03N84e+3LxCwHRlM/hiBOaW+UsKsQojQAzC7fdcJA0l2ppveXcYaVV+hxQ==
 
 next@12.1.6:
   version "12.1.6"

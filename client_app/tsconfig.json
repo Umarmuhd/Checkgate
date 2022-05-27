@@ -2,12 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/prisma/*": ["prisma/*"],
-      "@/components/*": ["components/*"],
-      "@/context/*": ["context/*"],
+      "@/components/*": ["src/components/*"],
+      "@/context/*": ["src/context/*"],
       "@/config/*": ["src/config/*"],
       "@/hooks/*": ["src/hooks/*"],
-      "@/layouts/*": ["layouts/*"],
+      "@/layouts/*": ["src/layouts/*"],
       "@/lib/*": ["src/lib/*"],
       "@/providers/*": ["src/providers/*"],
       "@/sections/*": ["src/sections/*"],
