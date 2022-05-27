@@ -5,15 +5,21 @@ import { UserModel } from './user.model';
 import { RegisterUserBody } from './user.schema';
 import { createUser } from './user.service';
 
-export async function registerUserHandler(
-  req: Request<{}, {}, RegisterUserBody>,
-  res: Response
-) {
+export async function registerUserHandler(req: Request, res: Response) {
   const { first_name, last_name, email, password } = req.body;
 
   try {
+    if (!first_name || !last_name || !email || !password) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message: 'FirstName, LastName, Email, Password',
+      });
+      return;
+    }
+
     const user = await createUser({ first_name, last_name, email, password });
     const wallet = await createWallet(user._id);
+
     return res
       .status(StatusCodes.CREATED)
       .json({ success: true, message: 'User created successfully' });

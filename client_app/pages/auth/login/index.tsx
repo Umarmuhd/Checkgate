@@ -6,7 +6,7 @@ import { NEXT_URL } from '../../../config/index';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 
-import AuthContext from '../../../context/AuthContext';
+import { login } from '../../../api';
 
 type Inputs = {
   email: string;
@@ -20,8 +20,6 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const { loginUser } = useContext(AuthContext);
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -30,19 +28,15 @@ export default function Login() {
     email: string;
     password: string;
   }) => {
+    const { email, password } = values;
+
     try {
       setLoading(true);
-
-      const response = await axios.post(`${NEXT_URL}/api/login`, values);
-
-      const { user, token } = response.data;
-
+      const { data } = await login({ email, password });
+      console.log(data);
       toast.success('Login success!');
-
-      loginUser(user, token);
       setLoading(false);
-
-      router.push('/dashboard/' + status);
+      router.push('/dashboard');
       return;
     } catch (error) {
       console.error(error);

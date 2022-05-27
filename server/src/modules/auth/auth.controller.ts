@@ -5,13 +5,16 @@ import { findUserByEmail } from '../user/user.service';
 import { LoginBody } from './auth.schema';
 import { signJwt } from './auth.utils';
 
-export async function loginHandler(
-  req: Request<{}, {}, LoginBody>,
-  res: Response
-) {
+export async function loginHandler(req: Request, res: Response) {
   const { email, password } = req.body;
 
-  // find the user by email
+  if (!email || !password) {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: 'Email and password are required' });
+    return;
+  }
+
   const user = await findUserByEmail(email);
 
   if (!user) {
