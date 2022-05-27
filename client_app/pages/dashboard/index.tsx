@@ -104,24 +104,6 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              {/* <div className="p-6 rounded-xl bg-white shadow-sm">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit
-              debitis, aut temporibus nisi beatae repellat quod corrupti non
-              quas delectus similique? Doloribus soluta sint dolorem laudantium
-              ad voluptas minus fuga nostrum quidem, tempore animi voluptatem
-              nemo facilis cumque mollitia laborum nulla nesciunt reprehenderit
-              cupiditate, maiores velit est. Eaque, voluptates harum. Lorem
-              ipsum dolor sit amet, consectetur adipisicing elit. Ducimus
-              nostrum perspiciatis at quaerat nam libero. Iure incidunt,
-              eveniet, perferendis dolore corrupti voluptate minus ab molestiae
-              laboriosam sed voluptatibus facere pariatur nesciunt aspernatur in
-              reiciendis, suscipit asperiores earum voluptates qui? Et illum
-              nihil saepe! Repellat quibusdam sapiente ipsam doloribus, ut
-              corrupti voluptatibus quia assumenda adipisci aliquid reiciendis,
-              suscipit asperiores earum voluptates qui? Et illum nihil saepe!
-              Repellat quibusdam sapiente ipsam doloribus, ut corrupti
-              voluptatibus quia assumenda adipisci aliquid
-            </div> */}
             </div>
             <div className="col-span-3">
               <h1 className="text-dark text-3xl font-head font-semibold flex items-center mb-8">
