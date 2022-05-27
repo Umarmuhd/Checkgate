@@ -18,10 +18,11 @@ interface Me {
 }
 
 const AuthContext = createContext<{
-  user: Me | null;
-  refresh: <TPageData>(
+  user: Me;
+  refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => any;
+  // @ts-ignore
 }>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

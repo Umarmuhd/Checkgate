@@ -1,6 +1,11 @@
 import React from 'react';
+import { useMe } from '../../context/AuthContext';
 
 export default function Dashboard() {
+  const { user, refetch } = useMe();
+
+  console.log(user);
+
   return (
     <div className="relative px-4 pb-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:pb-20">
       <div className="absolute inset-x-0 h-80">
