@@ -1,10 +1,8 @@
-// Instantiating ‘checkout’ with parametersInstantiating 'checkout' & setting variables
-
 window.onload = function () {
   const params = new URLSearchParams(window.location.search);
 
   let checkout = new RapydCheckoutToolkit({
-    pay_button_text: 'Click to pay',
+    pay_button_text: 'Deposit',
     pay_button_color: 'blue',
     id: params.get('checkout_id'),
     close_on_complete: true,
