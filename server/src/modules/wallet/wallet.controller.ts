@@ -56,7 +56,7 @@ export async function topUpWalletHandler(req: Request, res: Response) {
       message: 'checkout url',
       data: {
         link: checkout_page_url,
-        page: `http://127.0.0.1:5501/deposit/index.html?checkout_id=${id}`,
+        page: `https://deposit.checkgate.ml?checkout_id=${id}`,
       },
     });
   } catch (err: any) {
