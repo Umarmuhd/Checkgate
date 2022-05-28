@@ -46,6 +46,7 @@ export type CheckoutObjectResponse = {
   currency: string;
   amount: number;
   redirect_url: string;
+  id: string;
 };
 
 export type TransferFundsBetweenWalletsResponse = {

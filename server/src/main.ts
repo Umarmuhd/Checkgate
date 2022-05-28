@@ -30,7 +30,6 @@ app.use('/api/basket', basketRoute);
 app.use('/api/wallet', walletRoute);
 
 const server = app.listen(PORT, async () => {
-  console.clear();
   await connectToDatabase();
   logger.info(`Server listening at htp://localhost:${PORT}`);
 });

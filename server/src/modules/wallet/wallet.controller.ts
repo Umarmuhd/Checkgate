@@ -45,7 +45,7 @@ export async function topUpWalletHandler(req: Request, res: Response) {
       return;
     }
 
-    const deposit = await createCheckout({
+    const { id, checkout_page_url } = await createCheckout({
       amount: req.body.amount,
       user_id: userId,
       e_wallet_id: wallet.rapyd_ewallet_address,
@@ -54,7 +54,10 @@ export async function topUpWalletHandler(req: Request, res: Response) {
     return res.status(StatusCodes.OK).json({
       success: true,
       message: 'checkout url',
-      data: { link: deposit },
+      data: {
+        link: checkout_page_url,
+        page: `http://127.0.0.1:5501/deposit/index.html?checkout_id=${id}`,
+      },
     });
   } catch (err: any) {
     console.error(err.response.data);

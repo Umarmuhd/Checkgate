@@ -45,7 +45,7 @@ export async function createCheckout(values: {
   user_id: string;
   amount: number;
 }) {
-  const { redirect_url: checkout_page_url } = await rapydClient.post<
+  const { redirect_url: checkout_page_url, id } = await rapydClient.post<
     CheckoutObjectResponse,
     CreateCheckoutPageParams
   >({
@@ -59,7 +59,7 @@ export async function createCheckout(values: {
     },
   });
 
-  return checkout_page_url;
+  return { checkout_page_url, id };
 }
 
 export async function transferWallet({
