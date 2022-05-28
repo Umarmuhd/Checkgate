@@ -7,7 +7,7 @@ const Payme = () => {
   return (
     <div className="col-span-3">
       <h1 className="text-dark text-3xl font-head font-semibold flex items-center mb-8">
-        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary">
+        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#411A6E]">
           <svg
             className="w-8 h-8 text-white"
             stroke="currentColor"
