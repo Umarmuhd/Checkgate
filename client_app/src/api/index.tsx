@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const base = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:4000';
+const base = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3000';
 
 const authBase = `${base}/api/auth`;
 const userBase = `${base}/api/users`;
@@ -31,10 +31,7 @@ export function getOrders() {
     .get(orderBase + '/all', {
       withCredentials: true,
     })
-    .then((res) => res.data)
-    .catch((err) => {
-      console.log(err);
-    });
+    .then((res) => res.data);
 }
 
 export function getWallet() {
@@ -42,8 +39,5 @@ export function getWallet() {
     .get(walletBase + '/me', {
       withCredentials: true,
     })
-    .then((res) => res.data)
-    .catch((err) => {
-      console.log(err);
-    });
+    .then((res) => res.data);
 }
