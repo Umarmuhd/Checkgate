@@ -36,6 +36,7 @@ export default function Login() {
       console.log(data);
       toast.success('Login success!');
       setLoading(false);
+      axios.defaults.headers.common = { Authorization: `Bearer ${data.jwt}` };
       router.push('/dashboard');
       return;
     } catch (error) {
