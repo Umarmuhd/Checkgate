@@ -41,7 +41,7 @@ export async function loginHandler(req: Request, res: Response) {
     httpOnly: true,
     domain: 'localhost',
     path: '/',
-    sameSite: 'strict',
+    sameSite: 'lax',
     secure: false,
   });
 
