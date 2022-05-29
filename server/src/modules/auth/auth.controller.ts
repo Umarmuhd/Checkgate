@@ -41,7 +41,7 @@ export async function loginHandler(req: Request, res: Response) {
   res.cookie('accessToken', jwt, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
-    domain: 'checkgate.ml',
+    domain: 'checkgate',
     path: '/',
     sameSite: 'strict',
     secure: false,
