@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Failure</title>
+</head>
+
+<body>
+    <div class="h-screen flex items-center justify-center bg-[#F0F2F5]">
+        <div class="w-full">
+            <div class="w-full mx-auto md:w-3/4 bg-white px-4 md:px-8 py-4">
+                <img src="./img/failed.svg" alt="..." class="mx-auto w-2/5" />
+                <div class="mt-5 text-center" id="counterBox">
+                    <h1 class="text-xl text-red-800 font-bold mb-3">
+                        Deposit Failed
+                    </h1>
+                    <p class="text-gray-900">
+                        Something went wrong. Please try again.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            startCountdown(3);
+        }
+
+        function startCountdown(seconds) {
+            let counter = seconds;
+
+            const counterBox = document.getElementById("counterBox");
+
+            const counterEl = document.createElement("p")
+            counterEl.className = "mt-2"
+            counterEl.id="countdown"
+
+            counterBox.appendChild(counterEl)
+
+            const interval = setInterval(() => {
+                console.log(counter);
+                counter--;
+
+                counterEl.innerHTML = `Closing in <span id="counter">${counter + 1}</span>` 
+
+                if (counter < 0) {
+                    clearInterval(interval);
+                    console.log('Ding!');
+                    window.location.href = '/close';
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
