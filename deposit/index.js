@@ -14,13 +14,13 @@ window.onload = function () {
 
 window.addEventListener('onCheckoutPaymentSuccess', function (event) {
   console.log(event.detail);
-  window.location.href = '/deposit/success.html';
+  window.location.href = '/success.html';
 });
 window.addEventListener('onCheckoutFailure', function (event) {
   console.log(event.detail.error);
-  window.location.href = '/deposit/failure.html';
+  window.location.href = '/failure.html';
 });
 window.addEventListener('onCheckoutPaymentFailure', (event) => {
   console.log(event.detail.error);
-  window.location.href = '/deposit/failure.html';
+  window.location.href = '/failure.html';
 });
