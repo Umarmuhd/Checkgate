@@ -31,7 +31,10 @@ export function getOrders() {
     .get(orderBase + '/all', {
       withCredentials: true,
     })
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 export function getWallet() {
@@ -39,5 +42,8 @@ export function getWallet() {
     .get(walletBase + '/me', {
       withCredentials: true,
     })
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((err) => {
+      console.log(err);
+    });
 }
