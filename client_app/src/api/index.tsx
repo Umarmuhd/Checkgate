@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const base = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const base = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:4000';
 
 const authBase = `${base}/api/auth`;
 const userBase = `${base}/api/users`;

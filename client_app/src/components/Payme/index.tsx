@@ -25,7 +25,7 @@ const Payme = () => {
         <span className="ml-4">Payme</span>
       </h1>
       <div className="p-5 rounded-xl bg-white shadow-sm text-[#9e9e9e]">
-        {!isLoading && (
+        {!isLoading && data && (
           <React.Fragment>
             {`<div id="checkgate" to="${data?.wallet?.wallet_id}"></div>`}
             <br />
