@@ -1,14 +1,13 @@
 import useOrders, { OrderI } from '@/hooks/useOrders';
 import React from 'react';
 import Payme from 'src/components/Payme';
-import { useMe } from 'src/context/AuthContext';
 
 export default function Dashboard() {
   const { data: orders, isLoading } = useOrders();
 
   const total = isLoading
     ? 0
-    : orders.reduce(
+    : orders?.reduce(
         (total: number, item: OrderI) => total + item.total_price,
         0
       );
