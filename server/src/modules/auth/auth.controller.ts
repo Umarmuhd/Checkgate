@@ -36,8 +36,6 @@ export async function loginHandler(req: Request, res: Response) {
 
   const jwt = signJwt(payload);
 
-  console.log(req.headers);
-
   res.cookie('accessToken', jwt, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
