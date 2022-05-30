@@ -529,8 +529,6 @@
       orderDetails.style.display = 'none';
       orderSuccess.style.display = 'block';
 
-      return;
-
       const response = await fetch('http://localhost:4000/api/orders/order', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin

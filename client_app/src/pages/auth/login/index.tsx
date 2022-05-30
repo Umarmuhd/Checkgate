@@ -33,7 +33,6 @@ export default function Login() {
     try {
       setLoading(true);
       const data = await login({ email, password });
-      console.log(data);
       toast.success('Login success!');
       setLoading(false);
       axios.defaults.headers.common = { Authorization: `Bearer ${data.jwt}` };

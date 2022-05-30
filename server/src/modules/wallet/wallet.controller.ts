@@ -143,12 +143,12 @@ export async function makePurchaseHandler(req: Request, res: Response) {
     const { to, url, amount, items, shipment_info } = req.body;
 
     const basket = await createBasket({
-      title: 'amount from url',
+      title: `A Cart of ${amount} from Demo Store`,
       amount,
       url,
       owner: userId,
       paid: false,
-      description: 'Basket of amount from url',
+      description: `A Cart of ${amount} from Demo Store`,
     });
 
     const receiver_wallet = await findWallet(to);
